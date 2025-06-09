@@ -2,21 +2,20 @@ package kr.ac.kopo.optionmenutest;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     LinearLayout baseLayout;
-    Button button1;
+    Button button1, button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +25,16 @@ public class MainActivity extends AppCompatActivity {
         setTitle("배경색바꾸기");
         baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
         button1 = (Button) findViewById(R.id.button1);
+        registerForContextMenu(button1);
+        button2 = (Button) findViewById(R.id.button2);
+        registerForContextMenu(button2);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        menuInflater.inflate(R.menu.menu1, menu);
         return true;
     }
 
@@ -55,5 +57,18 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getMenuInflater();
+        if (v == button1) {
+            menu.setHeaderTitle("배경색 변경");
+            menuInflater.inflate(R.menu.menu1, menu);
+        }
+        if (v == button2) {
+            menuInflater.inflate(R.menu.menu2, menu);
+        }
     }
 }
